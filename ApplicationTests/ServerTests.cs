@@ -15,7 +15,7 @@ namespace ApplicationTests
         [SetUp]
         public void Setup()
         {
-            _sut = new Server();
+            _sut = new Server(new DishManager());
         }
 
         [TearDown]
@@ -25,13 +25,21 @@ namespace ApplicationTests
         }
 
         [Test]
+        public void ErrorGetsReturnedWithBadInput()
+        {
+            var order = "One";
+            string expected = "error";
+            var actual = _sut.TakeOrder(order);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
         public void CanServeSteak()
         {
             var order = "1";
             string expected = "steak";
             var actual = _sut.TakeOrder(order);
             Assert.AreEqual(expected, actual);
-
         }
     }
 }
