@@ -6,17 +6,30 @@ namespace Application
 {
     public class DishManager : IDishManager
     {
-        public List<Dish> GetDishes(List<int> orders)
+        /// <summary>
+        /// Takes an Order object, sorts the orders and builds a list of dishes to be returned. 
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public List<Dish> GetDishes(Order order)
         {
             var retVal = new List<Dish>();
-            orders.Sort();
-            foreach (var order in orders)
+            order.Orders.Sort();
+            foreach (var dishType in order.Orders)
             {
-                AddOrderToList(order, retVal);
+                AddOrderToList(dishType, retVal);
             }
             return retVal;
         }
 
+        /// <summary>
+        /// Takes an int, representing an order type, tries to find it in the list.
+        /// If the dish type does not exist, add it and set count to 1
+        /// If the type exists, check if multiples are allowed and increment that instances count by one
+        /// else throw error
+        /// </summary>
+        /// <param name="order">int, represents a dishtype</param>
+        /// <param name="retVal">a list of dishes. </param>
         private void AddOrderToList(int order, List<Dish> retVal)
         {
             string orderName = GetOrderName(order);
@@ -31,6 +44,10 @@ namespace Application
             } else if (IsMultipleAllowed(order))
             {
                 existingOrder.Count++;
+            }
+            else
+            {
+                throw new ApplicationException(string.Format("Multiple {0}(s) not allowed", orderName));
             }
         }
 

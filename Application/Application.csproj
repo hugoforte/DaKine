@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dish.cs" />
     <Compile Include="DishManager.cs" />
-    <Compile Include="IDishManager.cs" />
-    <Compile Include="IServer.cs" />
+    <Compile Include="Interfaces\IDishManager.cs" />
+    <Compile Include="Interfaces\IServer.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

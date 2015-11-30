@@ -14,27 +14,45 @@ namespace Application
         {
             _dishManager = dishManager;
         }
-
-        public string TakeOrder(string order)
+        
+        public string TakeOrder(string unparsedOrder)
         {
-
             try
             {
-                List<int> intOrders = ParseOrderToInts(order);
-                var dishes = _dishManager.GetDishes(intOrders);
-                return ParseDishes(dishes);
-
-
+                Order order = ParseOrder(unparsedOrder);
+                List<Dish> dishes = _dishManager.GetDishes(order);
+                string retVal = FormatOutput(dishes);
+                return retVal;
             }
             catch (ApplicationException e)
             {
                 return "error";
             }
-
-            return "";
         }
 
-        private string ParseDishes(List<Dish> dishes)
+        private Order ParseOrder(string order)
+        {
+            var orderItems = order.Split(',');
+            var retVal = new List<int>();
+            foreach (var orderItem in orderItems)
+            {
+                int parsedOrder = 0;
+                if (int.TryParse(orderItem, out parsedOrder))
+                {
+                    retVal.Add(parsedOrder);
+                }
+                else
+                {
+                    throw new ApplicationException("Order needs to be comma separated list of numbers");
+                }
+            }
+            return new Order
+            {
+                Orders = retVal
+            };
+        }
+
+        private string FormatOutput(List<Dish> dishes)
         {
             var retVal = "";
 
@@ -57,30 +75,5 @@ namespace Application
             }
             return "";
         }
-
-        private List<int> ParseOrderToInts(string order)
-        {
-            var orderItems = order.Split(',');
-            var retVal = new List<int>();
-            foreach (var orderItem in orderItems)
-            {
-                int parsedOrder = 0;
-                if (int.TryParse(orderItem, out parsedOrder))
-                {
-                    retVal.Add(parsedOrder);
-                }
-                else
-                {
-                    throw new ApplicationException("Order needs to be comma separated list of numbers");
-                }
-            }
-            return retVal;
-        }
-    }
-
-    public class Dish
-    {
-        public string DishName { get; set; }
-        public int Count { get; set; }
     }
 }

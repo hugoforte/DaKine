@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using Application;
+﻿using Application;
 using NUnit.Framework;
-using Rhino.Mocks;
-
 
 namespace ApplicationTests
 {
@@ -61,7 +57,7 @@ namespace ApplicationTests
         }
 
         [Test]
-        public void CanServeSteakPotato2Cake()
+        public void CanServeSteakPotatox2Cake()
         {
             var order = "1,2,2,4";
             string expected = "steak,potato(x2),cake";
