@@ -39,13 +39,13 @@ namespace Application
             switch (order)
             {
                 case 1:
-                    return "Steak";
+                    return "steak";
                 case 2:
-                    return "Potato";
+                    return "potato";
                 case 3:
-                    return "Wine";
+                    return "wine";
                 case 4:
-                    return "Cake";
+                    return "cake";
                 default:
                     throw new ApplicationException("Order does not exist");
 

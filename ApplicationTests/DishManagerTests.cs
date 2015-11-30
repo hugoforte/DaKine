@@ -39,7 +39,7 @@ namespace ApplicationTests
             var order = new List<int> {1};
             var actual = _sut.GetDishes(order);
             Assert.AreEqual(1, actual.Count);
-            Assert.AreEqual("Steak", actual.First().DishName);
+            Assert.AreEqual("steak", actual.First().DishName);
             Assert.AreEqual(1, actual.First().Count);
         }
 
