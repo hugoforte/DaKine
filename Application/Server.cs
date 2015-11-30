@@ -21,7 +21,8 @@ namespace Application
             try
             {
                 List<int> intOrders = ParseOrderToInts(order);
-                var retVal = _dishManager.GetDishes(intOrders);
+                var dishes = _dishManager.GetDishes(intOrders);
+                return ParseDishes(dishes);
 
 
             }
@@ -30,6 +31,22 @@ namespace Application
                 return "error";
             }
 
+            return "";
+        }
+
+        private string ParseDishes(List<Dish> dishes)
+        {
+            var retVal = "";
+
+            foreach (var dish in dishes)
+            {
+                retVal = retVal + string.Format("{0}{1}", dish.DishName, GetMultiple(dish.Count));
+            }
+            return retVal;
+        }
+
+        private object GetMultiple(int count)
+        {
             return "";
         }
 

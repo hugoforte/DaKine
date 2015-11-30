@@ -37,7 +37,7 @@ namespace ApplicationTests
         public void CanServeSteak()
         {
             var order = "1";
-            string expected = "steak";
+            string expected = "Steak";
             var actual = _sut.TakeOrder(order);
             Assert.AreEqual(expected, actual);
         }
