@@ -6,13 +6,13 @@ namespace Application
 {
     public class DishManager : IDishManager
     {
-        public List<Dish> GetDishes(List<int> orders)
+        public List<Dish> GetDishes(Order order)
         {
             var retVal = new List<Dish>();
-            orders.Sort();
-            foreach (var order in orders)
+            order.OrderTypes.Sort();
+            foreach (var orderType in order.OrderTypes)
             {
-                AddOrderToList(order, retVal);
+                AddOrderToList(orderType, retVal);
             }
             return retVal;
         }

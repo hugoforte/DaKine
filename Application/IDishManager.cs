@@ -4,6 +4,6 @@ namespace Application
 {
     public interface IDishManager
     {
-        List<Dish> GetDishes(List<int> orders);
+        List<Dish> GetDishes(Order order);
     }
 }

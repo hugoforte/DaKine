@@ -2,7 +2,7 @@
 {
     public interface IServer
     {
-        string TakeOrder(string order);
+        string TakeOrder(string unparsedOrder);
 
     }
 }

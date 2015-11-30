@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Application;
 using NUnit.Framework;
-using Rhino.Mocks;
 
 
 namespace ApplicationTests
@@ -28,7 +26,7 @@ namespace ApplicationTests
         [Test]
         public void EmptyListReturnsEmptyList()
         {
-            var order = new List<int>();
+            var order = new Order();
             var actual = _sut.GetDishes(order);
             Assert.AreEqual(0, actual.Count);
         }
@@ -36,7 +34,13 @@ namespace ApplicationTests
         [Test]
         public void ListWith1ReturnsOneSteak()
         {
-            var order = new List<int> {1};
+            var order = new Order
+            {
+                OrderTypes = new List<int>
+                {
+                    1
+                }
+            };
             var actual = _sut.GetDishes(order);
             Assert.AreEqual(1, actual.Count);
             Assert.AreEqual("steak", actual.First().DishName);
