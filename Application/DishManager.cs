@@ -14,8 +14,8 @@ namespace Application
         public List<Dish> GetDishes(Order order)
         {
             var retVal = new List<Dish>();
-            order.Orders.Sort();
-            foreach (var dishType in order.Orders)
+            order.Dishes.Sort();
+            foreach (var dishType in order.Dishes)
             {
                 AddOrderToList(dishType, retVal);
             }

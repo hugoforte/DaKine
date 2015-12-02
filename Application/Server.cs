@@ -48,7 +48,7 @@ namespace Application
             }
             return new Order
             {
-                Orders = retVal
+                Dishes = retVal
             };
         }
 

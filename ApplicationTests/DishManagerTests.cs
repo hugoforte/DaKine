@@ -32,7 +32,7 @@ namespace ApplicationTests
         {
             var order = new Order
             {
-                Orders = new List<int>
+                Dishes = new List<int>
                 {
                     1
                 }
