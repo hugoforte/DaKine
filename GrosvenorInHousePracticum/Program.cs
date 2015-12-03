@@ -11,7 +11,7 @@ namespace GrosvenorInHousePracticum
     {
         static void Main(string[] args)
         {
-            var server = new Server(new DishManager());
+            var server = new Server(new DishManager(), new OrderParser());
             while (true)
             {
                 var order = Console.ReadLine();

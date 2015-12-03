@@ -9,47 +9,27 @@ namespace Application
     public class Server : IServer
     {
         private readonly IDishManager _dishManager;
+        private readonly IOrderParser _orderParser;
 
-        public Server(IDishManager dishManager)
+        public Server(IDishManager dishManager, IOrderParser orderParser)
         {
             _dishManager = dishManager;
+            _orderParser = orderParser;
         }
         
         public string TakeOrder(string unparsedOrder)
         {
             try
             {
-                Order order = ParseOrder(unparsedOrder);
+                Order order = _orderParser.ParseOrder(unparsedOrder);
                 List<Dish> dishes = _dishManager.GetDishes(order);
                 string retVal = FormatOutput(dishes);
                 return retVal;
             }
-            catch (ApplicationException e)
+            catch (Exception e)
             {
                 return "error";
             }
-        }
-
-        private Order ParseOrder(string order)
-        {
-            var orderItems = order.Split(',');
-            var retVal = new List<int>();
-            foreach (var orderItem in orderItems)
-            {
-                int parsedOrder = 0;
-                if (int.TryParse(orderItem, out parsedOrder))
-                {
-                    retVal.Add(parsedOrder);
-                }
-                else
-                {
-                    throw new ApplicationException("Order needs to be comma separated list of numbers");
-                }
-            }
-            return new Order
-            {
-                Dishes = retVal
-            };
         }
 
         private string FormatOutput(List<Dish> dishes)

@@ -6,6 +6,8 @@ namespace Application
 {
     public class DishManager : IDishManager
     {
+        private IDishMapper _dishMapper;
+
         /// <summary>
         /// Takes an Order object, sorts the orders and builds a list of dishes to be returned. 
         /// </summary>
@@ -15,71 +17,53 @@ namespace Application
         {
             var retVal = new List<Dish>();
             order.Dishes.Sort();
+            _dishMapper = MockedGetDishMapper(order.TimeOfDay);
             foreach (var dishType in order.Dishes)
             {
-                AddOrderToList(dishType, retVal);
+                AddDishToList(dishType, retVal);
             }
             return retVal;
         }
 
         /// <summary>
-        /// Takes an int, representing an order type, tries to find it in the list.
+        /// Takes an int, representing a dish type, tries to find it in the list.
         /// If the dish type does not exist, add it and set count to 1
         /// If the type exists, check if multiples are allowed and increment that instances count by one
         /// else throw error
         /// </summary>
-        /// <param name="order">int, represents a dishtype</param>
+        /// <param name="dish">int, represents a dishtype</param>
         /// <param name="retVal">a list of dishes. </param>
-        private void AddOrderToList(int order, List<Dish> retVal)
+        private void AddDishToList(int dish, List<Dish> retVal)
         {
-            string orderName = GetOrderName(order);
-            var existingOrder = retVal.SingleOrDefault(x => x.DishName == orderName);
-            if (existingOrder == null)
+            string dishName = _dishMapper.MapDish(dish);
+            var existingDish = retVal.SingleOrDefault(x => x.DishName == dishName);
+            if (existingDish == null)
             {
                 retVal.Add(new Dish
                 {
-                    DishName = orderName,
+                    DishName = dishName,
                     Count = 1
                 });
-            } else if (IsMultipleAllowed(order))
+            } else if (_dishMapper.IsMultipleAllowed(dish))
             {
-                existingOrder.Count++;
+                existingDish.Count++;
             }
             else
             {
-                throw new ApplicationException(string.Format("Multiple {0}(s) not allowed", orderName));
+                throw new ApplicationException(string.Format("Multiple {0}(s) not allowed", dishName));
             }
         }
 
-        private string GetOrderName(int order)
+        private IDishMapper MockedGetDishMapper(TimeOfDay timeOfDay)
         {
-            switch (order)
+            switch(timeOfDay)
             {
-                case 1:
-                    return "steak";
-                case 2:
-                    return "potato";
-                case 3:
-                    return "wine";
-                case 4:
-                    return "cake";
-                default:
-                    throw new ApplicationException("Order does not exist");
-
+                case TimeOfDay.morning:
+                    return new MorningDishMapper();
+                case TimeOfDay.evening:
+                    return new EveningDishMapper();
             }
-        }
-
-
-        private bool IsMultipleAllowed(int order)
-        {
-            switch (order)
-            {
-                case 2:
-                    return true;
-                default:
-                    return false;
-
-            }
+            throw new ApplicationException("TimeOfDay not found");
         }
     }
 }
