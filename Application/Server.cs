@@ -33,22 +33,28 @@ namespace Application
         private Order ParseOrder(string order)
         {
             var orderItems = order.Split(',');
-            var retVal = new List<int>();
-            foreach (var orderItem in orderItems)
+            var dishes = new List<int>();
+            var timeOfDay = orderItems[0];
+            bool isValidOrder = CheckForValidTimeOfDay(timeOfDay);
+            for (int i = 1; i < orderItems.Length; i++)
             {
                 int parsedOrder = 0;
-                if (int.TryParse(orderItem, out parsedOrder))
+                if (int.TryParse(orderItems[i], out parsedOrder))
                 {
-                    retVal.Add(parsedOrder);
+                    dishes.Add(parsedOrder);
                 }
                 else
                 {
-                    throw new ApplicationException("Order needs to be comma separated list of numbers");
+                    isValidOrder = false;
                 }
+            }
+            if(isValidOrder == false)
+            {
+                throw new ApplicationException("Order needs to be comma separated list of numbers");
             }
             return new Order
             {
-                Dishes = retVal
+                Dishes = dishes
             };
         }
 
@@ -74,6 +80,16 @@ namespace Application
                 return string.Format("(x{0})", count);
             }
             return "";
+        }
+
+        private bool CheckForValidTimeOfDay(string timeOfDay)
+        {
+            bool isValid = false;
+            if (timeOfDay.ToLower() == "morning" || timeOfDay.ToLower() == "evening")
+            {
+                isValid = true;
+            }
+            return isValid;
         }
     }
 }

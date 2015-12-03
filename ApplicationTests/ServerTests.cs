@@ -32,7 +32,7 @@ namespace ApplicationTests
         [Test]
         public void CanServeSteak()
         {
-            var order = "1";
+            var order = "evening,1";
             string expected = "steak";
             var actual = _sut.TakeOrder(order);
             Assert.AreEqual(expected, actual);
@@ -41,7 +41,7 @@ namespace ApplicationTests
         [Test]
         public void CanServe2Potatoes()
         {
-            var order = "2,2";
+            var order = "evening,2,2";
             string expected = "potato(x2)";
             var actual = _sut.TakeOrder(order);
             Assert.AreEqual(expected, actual);
@@ -50,7 +50,7 @@ namespace ApplicationTests
         [Test]
         public void CanServeSteamPotatoWineCake()
         {
-            var order = "1,2,3,4";
+            var order = "evening,1,2,3,4";
             string expected = "steak,potato,wine,cake";
             var actual = _sut.TakeOrder(order);
             Assert.AreEqual(expected, actual);
@@ -59,7 +59,7 @@ namespace ApplicationTests
         [Test]
         public void CanServeSteakPotatox2Cake()
         {
-            var order = "1,2,2,4";
+            var order = "evening,1,2,2,4";
             string expected = "steak,potato(x2),cake";
             var actual = _sut.TakeOrder(order);
             Assert.AreEqual(expected, actual);

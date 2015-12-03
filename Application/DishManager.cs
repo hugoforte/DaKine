@@ -32,7 +32,7 @@ namespace Application
         /// <param name="retVal">a list of dishes. </param>
         private void AddOrderToList(int order, List<Dish> retVal)
         {
-            string orderName = GetOrderName(order);
+            string orderName = GetEveningOrderName(order);
             var existingOrder = retVal.SingleOrDefault(x => x.DishName == orderName);
             if (existingOrder == null)
             {
@@ -51,7 +51,7 @@ namespace Application
             }
         }
 
-        private string GetOrderName(int order)
+        private string GetEveningOrderName(int order)
         {
             switch (order)
             {
@@ -63,6 +63,22 @@ namespace Application
                     return "wine";
                 case 4:
                     return "cake";
+                default:
+                    throw new ApplicationException("Order does not exist");
+
+            }
+        }
+
+        private string GetMorningOrderName(int order)
+        {
+            switch (order)
+            {
+                case 1:
+                    return "egg";
+                case 2:
+                    return "toast";
+                case 3:
+                    return "coffee";
                 default:
                     throw new ApplicationException("Order does not exist");
 
